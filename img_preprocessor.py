@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
 import pytesseract
-from PIL import Image
+from PIL import Image 
+from config import TESSERACT_PATH
 
 # preprocessing
 def preprocess(pil_image):
@@ -42,6 +43,9 @@ def preprocess(pil_image):
     return thresh
 
 # text extraction - OCR
+if TESSERACT_PATH:
+    pytesseract.pytesseract.tesseract_cmd = TESSERACT_PATH
+
 def extract_text(processed_image):
     config = r"--psm 6 --oem 3"
     text = pytesseract.image_to_string(processed_image, lang="eng+hin", config=config)
